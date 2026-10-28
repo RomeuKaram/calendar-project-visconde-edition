@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendário Regressivo - Edição Especial Colégio Visconde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #1b365d;
+      --navy-soft: #244a80;
+      --blue-light: #eaf3ff;
+      --red-light: #f4cccc;
+      --orange: #f4b183;
+      --yellow: #fff2cc;
+      --pink: #fce4d6;
+      --green: #e2efda;
+      --text: #222;
+      --muted: #6b7a90;
+      --border: #d9e2f3;
+      --white: #ffffff;
+      --c-blue: #1a5bb0;
+      --c-yellow: #eab308;
+      --c-red: #c1272d;
+      --c-green: #2e8b57;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Inter', Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #f0f6ff 0%, #ffffff 60%);
+    }
+    .container { width: min(1240px, 94%); margin: 0 auto; padding: 24px 0 48px; }
+    /* HEADER VISCONDE */
+    .school-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 14px 18px;
+      box-shadow: 0 8px 24px rgba(27,54,93,0.08);
+      margin-bottom: 18px;
+    }
+    .school-brand { display: flex; align-items: center; gap: 14px; }
+    .school-logo {
+      width: 76px; height: 48px; flex: 0 0 auto;
+      background: white; border-radius: 10px;
+      display: grid; place-items: center;
+      border: 1px solid #eef2f8;
+    }
+    .school-info { line-height: 1.1; }
+    .school-info .kicker {
+      font-size: .72rem; font-weight: 800; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--navy);
+      display: inline-flex; gap:6px; align-items:center;
+    }
+    .kicker .dot { width:7px; height:7px; border-radius:50%; display:inline-block; }
+    .school-info h2 { margin: 4px 0 2px; font-size: 1.05rem; color: var(--navy); font-weight: 800; }
+    .school-info p { margin:0; font-size:.82rem; color:var(--muted); }
+    .school-badge {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--navy); color: white; border-radius: 999px;
+      padding: 8px 14px; font-size: .78rem; font-weight: 700;
+      white-space: nowrap;
+    }
+    .school-badge small { opacity:.8; font-weight:600; }
+    header.main-header { text-align: center; margin: 18px 0 22px; }
+    h1 {
+      margin: 0; color: var(--navy); font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-weight: 800; letter-spacing: -.02em;
+    }
+    .subtitle { margin-top: 8px; color: var(--muted); font-size: .98rem; }
+    .subtitle strong { color: var(--navy); }
+    .countdowns {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px; margin: 22px 0 18px;
+    }
+    .countdown-card {
+      background: var(--white); border-radius: 16px; padding: 20px 22px;
+      text-align: center; box-shadow: 0 8px 24px rgba(27, 54, 93, 0.12);
+      border: 1px solid var(--border); position: relative; overflow:hidden;
+    }
+    .countdown-card::after {
+      content: ""; position:absolute; right:-20px; top:-20px; width:80px; height:80px;
+      background: radial-gradient(circle at 30% 30%, #1a5bb022, transparent 70%);
+      border-radius:50%;
+    }
+    .countdown-card h2 { margin: 0 0 10px; color: var(--navy); font-size: .92rem; text-transform: uppercase; letter-spacing: .05em; }
+    .counter {
+      color: var(--navy); font-size: clamp(1.6rem, 5vw, 3.2rem);
+      font-weight: 800; letter-spacing: .06em; font-variant-numeric: tabular-nums; white-space: nowrap;
+    }
+    .counter-label { color: var(--muted); margin-top: 6px; font-size: .84rem; }
+    .legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 18px 0 26px; }
+    .legend-item { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: .82rem; }
+    .legend-color { width: 16px; height: 16px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.08); }
+    .calendar { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+    .month {
+      background: var(--white); border-radius: 16px; padding: 12px;
+      border: 1px solid var(--border); box-shadow: 0 8px 24px rgba(27,54,93,0.06);
+      position: relative;
+    }
+    .month-title {
+      background: var(--navy); color: white; border-radius: 10px;
+      text-align: center; padding: 10px 8px; font-weight: 800; margin-bottom: 10px;
+      font-size: .9rem; letter-spacing:.02em;
+      display:flex; justify-content:center; align-items:center; gap:8px;
+    }
+    .month-title .mini-rings { opacity:.9; }
+    .weekdays, .days-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
+    .weekday { text-align: center; color: var(--muted); font-size: .68rem; font-weight: 700; padding: 4px 0; }
+    /* DIA - REFINAMENTO PRINCIPAL */
+    .day {
+      min-height: 86px;
+      border-radius: 8px;
+      padding: 6px 6px 5px;
+      background: var(--blue-light);
+      border: 1px solid rgba(27, 54, 93, 0.08);
+      transition: transform .12s ease, box-shadow .12s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      text-align: left;
+      overflow: hidden;
+      position: relative;
+    }
+    .day:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(27,54,93,.12); }
+    .day.empty { visibility: hidden; background: transparent; border: none; }
+    .day-number {
+      font-weight: 800;
+      font-size: .92rem;
+      line-height: 1;
+      width: 100%;
+      text-align: left;
+      letter-spacing: -.02em;
+    }
+    .day-status {
+      margin-top: 4px;
+      font-size: .62rem;
+      line-height: 1.15;
+      color: #1f497d;
+      width: 100%;
+      text-align: left;
+      font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+    .day.weekend { background: var(--yellow); color: #7f6000; }
+    .day.holiday { background: var(--pink); color: #c00000; }
+    .day.today { background: var(--orange); color: #7f3f00; border: 2px solid #d66b00; }
+    .day.past { background: var(--red-light); color: #8b0000; }
+    .day.past .day-status { text-decoration: line-through; text-decoration-thickness: 1.2px; }
+    .day.future { background: var(--blue-light); color: #1f497d; }
+    .day.vacation { background: var(--green); color: #375623; }
+    /* Correções de sobreposição */
+    .day.past.weekend, .day.future.weekend { background: var(--yellow); text-decoration: none; }
+    .day.past.holiday, .day.future.holiday { background: var(--pink); text-decoration: none; }
+    .holiday-name {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-top: 3px;
+      font-size: .56rem;
+      line-height: 1.05;
+      font-weight: 800;
+      width: 100%;
+      text-align: left;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      hyphens: auto;
+      opacity: .95;
+    }
+    footer {
+      margin-top: 32px; text-align: center; color: var(--muted);
+      font-size: .82rem; line-height: 1.6;
+      display:flex; flex-direction:column; gap:10px; align-items:center;
+    }
+    .author { color: var(--navy); font-weight: 700; }
+    .footer-rings { display:flex; gap:6px; align-items:center; opacity:.9; overflow: visible; }
+    @media (max-width: 980px) { .calendar { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 720px) {
+      .school-header { flex-direction: column; align-items: flex-start; }
+      .school-badge { align-self: stretch; justify-content: center; }
+      .calendar { grid-template-columns: 1fr; }
+      .countdowns { grid-template-columns: 1fr; }
+      .counter { font-size: clamp(1.5rem, 9vw, 2.6rem); }
+      .day { min-height: 72px; }
+      .day-status { font-size: .58rem; }
+      .holiday-name { font-size: .52rem; -webkit-line-clamp: 2; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <!-- IDENTIDADE VISCONDE -->
+    <div class="school-header">
+      <div class="school-brand">
+        <div class="school-logo" aria-label="Logo CEVG">
+          <!-- SVG recriado baseado no logo enviado -->
+          <svg viewBox="0 0 160 90" width="100%" height="100%" role="img">
+            <circle cx="28" cy="28" r="18" fill="none" stroke="#1a5bb0" stroke-width="5"/>
+            <circle cx="62" cy="62" r="18" fill="none" stroke="#eab308" stroke-width="5"/>
+            <circle cx="98" cy="62" r="18" fill="none" stroke="#2e8b57" stroke-width="5"/>
+            <circle cx="132" cy="28" r="18" fill="none" stroke="#c1272d" stroke-width="5"/>
+            <g font-family="Inter, Arial" font-weight="800" font-size="18" text-anchor="middle">
+              <text x="28" y="33" fill="#1a5bb0">C</text>
+              <text x="62" y="67" fill="#5a4700">E</text>
+              <text x="98" y="67" fill="#2e8b57">V</text>
+              <text x="132" y="33" fill="#c1272d">G</text>
+            </g>
+            <g transform="translate(80 22)">
+              <path d="M -18 0 Q 0 -10 18 0 Q 0 6  -18 0" fill="none" stroke="#333" stroke-width="1.4"/>
+              <path d="M -18 0 Q 0 2 18 0" fill="none" stroke="#333" stroke-width="1"/>
+              <path d="M 0 -8 L 0 4" stroke="#333" stroke-width="1"/>
+              <path d="M -14 -3 Q -7 -1 -2 0" fill="none" stroke="#555" stroke-width="0.8"/>
+              <path d="M 14 -3 Q 7 -1 2 0" fill="none" stroke="#555" stroke-width="0.8"/>
+            </g>
+          </svg>
+        </div>
+        <div class="school-info">
+          <div class="kicker"><span class="dot" style="background:var(--c-blue)"></span><span class="dot" style="background:var(--c-yellow)"></span><span class="dot" style="background:var(--c-green)"></span><span class="dot" style="background:var(--c-red)"></span> Edição Especial</div>
+          <h2>Colégio Estadual Visconde de Guarapuava</h2>
+          <p>Guarapuava • Paraná • Calendário Letivo 2026</p>
+        </div>
+      </div>
+      <div class="school-badge">CEVG • 2026 <small>contagem até 18/12 às 22:00</small></div>
+    </div>
+    <header class="main-header">
+      <h1>Calendário Regressivo Escolar 2026</h1>
+      <div class="subtitle">Contagem regressiva até o início das férias em <strong>18/12/2026 às 22:00</strong></div>
+    </header>
+    <section class="countdowns">
+      <article class="countdown-card">
+        <h2>Dias corridos para as férias</h2>
+        <div id="calendarCountdown" class="counter">00|00|00|00</div>
+        <div class="counter-label">DD | HH | MM | SS</div>
+      </article>
+      <article class="countdown-card">
+        <h2>Dias letivos para as férias</h2>
+        <div id="schoolCountdown" class="counter">00|00|00|00</div>
+        <div class="counter-label">Fins de semana e feriados não consomem tempo</div>
+      </article>
+    </section>
+    <section class="legend">
+      <div class="legend-item"><span class="legend-color" style="background:#eaf3ff"></span>Dias futuros</div>
+      <div class="legend-item"><span class="legend-color" style="background:#f4b183"></span>Hoje</div>
+      <div class="legend-item"><span class="legend-color" style="background:#f4cccc"></span>Dias passados</div>
+      <div class="legend-item"><span class="legend-color" style="background:#fff2cc"></span>Fins de semana</div>
+      <div class="legend-item"><span class="legend-color" style="background:#fce4d6"></span>Feriados</div>
+      <div class="legend-item"><span class="legend-color" style="background:#e2efda"></span>Férias</div>
+    </section>
+    <section id="calendar" class="calendar"></section>
+    <footer>
+      <div class="footer-rings">
+        <svg width="200" height="32" viewBox="0 0 190 36" style="overflow:visible"><circle cx="20" cy="18" r="10" fill="none" stroke="#1a5bb0" stroke-width="2.5"/><circle cx="45" cy="18" r="10" fill="none" stroke="#eab308" stroke-width="2.5"/><circle cx="70" cy="18" r="10" fill="none" stroke="#2e8b57" stroke-width="2.5"/><circle cx="95" cy="18" r="10" fill="none" stroke="#c1272d" stroke-width="2.5"/><text x="118" y="23" font-family="Inter, Arial" font-size="14" font-weight="800" fill="#1b365d">CEVG</text></svg>
+      </div>
+      Atualização automática a cada segundo.<br/>Feito por <span class="author">Prof. Romeu Karam</span> • Edição Especial Colégio Visconde
+    </footer>
+  </main>
+<script>
+    const TARGET_DATE = "2026-12-18T22:00:00";
+    const TEST_NOW = null;
+    const holidays = {
+      "2026-10-12": "Nossa Senhora Aparecida",
+      "2026-11-02": "Finados",
+      "2026-11-15": "Proclamação da República",
+      "2026-11-20": "Consciência Negra"
+    };
+    const months = [
+      { year: 2026, month: 9, name: "OUTUBRO 2026" },
+      { year: 2026, month: 10, name: "NOVEMBRO 2026" },
+      { year: 2026, month: 11, name: "DEZEMBRO 2026" }
+    ];
+    const weekdays = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+    function now(){ return TEST_NOW ? new Date(TEST_NOW) : new Date(); }
+    function dateKey(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+    function startOfDay(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0,0,0,0); }
+    function isWeekend(d){ const w=d.getDay(); return w===0||w===6; }
+    function isHoliday(d){ return Object.prototype.hasOwnProperty.call(holidays, dateKey(d)); }
+    function isSchoolDay(d){ return !isWeekend(d) && !isHoliday(d); }
+    function formatCountdown(ms){
+      if(ms<=0) return "00|00|00|00";
+      const s=Math.floor(ms/1000);
+      const days=Math.floor(s/86400), h=Math.floor((s%86400)/3600), m=Math.floor((s%3600)/60), sec=s%60;
+      return [String(days).padStart(2,"0"),String(h).padStart(2,"0"),String(m).padStart(2,"0"),String(sec).padStart(2,"0")].join("|");
+    }
+    function elapsedCalendarTimeUntil(target, current){ return Math.max(0, target.getTime()-current.getTime()); }
+    function schoolTimeUntil(target, current){
+      if(current>=target) return 0;
+      let cursor=new Date(current), total=0;
+      while(cursor<target){
+        const nextMidnight=new Date(cursor.getFullYear(), cursor.getMonth(), cursor.getDate()+1,0,0,0,0);
+        const segmentEnd= nextMidnight < target ? nextMidnight : target;
+        if(isSchoolDay(cursor)) total+= segmentEnd.getTime()-cursor.getTime();
+        cursor=segmentEnd;
+      }
+      return total;
+    }
+    function updateCountdowns(){
+      const current=now(), target=new Date(TARGET_DATE);
+      document.getElementById("calendarCountdown").textContent=formatCountdown(elapsedCalendarTimeUntil(target,current));
+      document.getElementById("schoolCountdown").textContent=formatCountdown(schoolTimeUntil(target,current));
+    }
+    function createDayCell(date){
+      const cell=document.createElement("div");
+      if(!date){ cell.className="day empty"; return cell; }
+      const current=now(), today=startOfDay(current), cellDate=startOfDay(date), target=startOfDay(new Date(TARGET_DATE)), key=dateKey(date);
+      cell.className="day";
+      const isToday=cellDate.getTime()===today.getTime();
+      const isPast=cellDate<today, isFuture=cellDate>today, weekend=isWeekend(date), holiday=isHoliday(date);
+      const vacationDay=cellDate.getTime()===target.getTime();
+      if(vacationDay) cell.classList.add("vacation");
+      else if(isToday) cell.classList.add("today");
+      else if(holiday) cell.classList.add("holiday");
+      else if(weekend) cell.classList.add("weekend");
+      else if(isPast) cell.classList.add("past");
+      else if(isFuture) cell.classList.add("future");
+      const number=document.createElement("div");
+      number.className="day-number";
+      number.textContent=String(date.getDate()).padStart(2,"0");
+      const status=document.createElement("div");
+      status.className="day-status";
+      if(vacationDay) status.textContent="Férias 🎉";
+      else if(holiday) status.textContent="Feriado";
+      else if(weekend) status.textContent="Fim de semana";
+      else if(isPast) status.textContent="Concluído";
+      else if(isToday) status.textContent="Hoje";
+      else {
+        const remainingDays=Math.ceil((target.getTime()-cellDate.getTime())/86400000);
+        status.textContent=`faltam ${Math.max(0,remainingDays)} dias`;
+      }
+      cell.appendChild(number);
+      cell.appendChild(status);
+      if(holiday){
+        const hn=document.createElement("span");
+        hn.className="holiday-name";
+        hn.textContent=holidays[key];
+        hn.title=holidays[key];
+        cell.appendChild(hn);
+      }
+      return cell;
+    }
+    function renderMonth(monthData){
+      const monthSection=document.createElement("section");
+      monthSection.className="month";
+      const title=document.createElement("div");
+      title.className="month-title";
+      title.innerHTML=`<span>${monthData.name}</span><span class="mini-rings"><svg width="46" height="14" viewBox="0 0 60 18"><circle cx="8" cy="9" r="5" fill="none" stroke="white" stroke-width="1.5" opacity=".9"/><circle cx="20" cy="9" r="5" fill="none" stroke="white" stroke-width="1.5" opacity=".9"/><circle cx="32" cy="9" r="5" fill="none" stroke="white" stroke-width="1.5" opacity=".9"/><circle cx="44" cy="9" r="5" fill="none" stroke="white" stroke-width="1.5" opacity=".9"/></svg></span>`;
+      monthSection.appendChild(title);
+      const weekdaysRow=document.createElement("div");
+      weekdaysRow.className="weekdays";
+      weekdays.forEach(d=>{ const w=document.createElement("div"); w.className="weekday"; w.textContent=d; weekdaysRow.appendChild(w); });
+      monthSection.appendChild(weekdaysRow);
+      const daysGrid=document.createElement("div");
+      daysGrid.className="days-grid";
+      const firstDay=new Date(monthData.year, monthData.month, 1);
+      const daysInMonth=new Date(monthData.year, monthData.month+1, 0).getDate();
+      const firstWeekday=firstDay.getDay();
+      for(let i=0;i<firstWeekday;i++) daysGrid.appendChild(createDayCell(null));
+      for(let day=1; day<=daysInMonth; day++) daysGrid.appendChild(createDayCell(new Date(monthData.year, monthData.month, day)));
+      monthSection.appendChild(daysGrid);
+      return monthSection;
+    }
+    function renderCalendar(){
+      const calendar=document.getElementById("calendar");
+      calendar.innerHTML="";
+      months.forEach(m=>calendar.appendChild(renderMonth(m)));
+    }
+    function refresh(){ updateCountdowns(); renderCalendar(); }
+    refresh();
+    setInterval(()=>{ updateCountdowns(); renderCalendar(); }, 1000);
+</script>
+</body>
+</html>
