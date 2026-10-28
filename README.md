@@ -98,7 +98,7 @@ Edite facilmente no objeto `holidays`.
 ### 👨‍🏫 Autor
 
 **Prof. Romeu Karam** — Professor e desenvolvedor  
-📍 Maringá / Guarapuava - PR  
+📍 Guarapuava - PR  
 🔗 [Instagram @romeukaramneto](https://instagram.com/romeukaramneto) | [GitHub](https://github.com/romeukaram)
 
 Feito com foco educacional para uso em sala de aula, secretaria e comunicação com famílias.
